@@ -15,12 +15,21 @@
  */
 package com.github.veithen.ulog;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.ILoggerFactory;
+import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.impl.JDK14LoggerFactory;
 import org.slf4j.impl.Log4jLoggerFactory;
+import org.slf4j.spi.LoggerFactoryBinder;
 
 public final class MetaFactory {
+    // We use java.util.logging as a fallback during discovery
+    private static final Logger logger = Logger.getLogger(MetaFactory.class.getName());
+    
     private static MetaFactory instance;
     
     private final LogFactory logFactory;
@@ -34,17 +43,44 @@ public final class MetaFactory {
     public static synchronized MetaFactory getInstance() {
         if (instance == null) {
             ClassLoader cl = MetaFactory.class.getClassLoader();
-            try {
-                cl.loadClass("org.apache.log4j.Logger");
-                instance = new MetaFactory(new Log4jLogFactory(), new Log4jLoggerFactory());
-            } catch (ClassNotFoundException ex) {
-                // continue
+            LoggerFactoryBinder binder = getLoggerFactoryBinder();
+            if (binder != null) {
+                String loggerFactoryClass = binder.getLoggerFactoryClassStr();
+                if (loggerFactoryClass.equals("org.slf4j.helpers.NOPLoggerFactory")) {
+                    instance = new MetaFactory(new NoOpLogFactory(), new NOPLoggerFactory());
+                }
+            }
+            if (instance == null) {
+                try {
+                    cl.loadClass("org.apache.log4j.Logger");
+                    instance = new MetaFactory(new Log4jLogFactory(), new Log4jLoggerFactory());
+                } catch (ClassNotFoundException ex) {
+                    // continue
+                }
             }
             if (instance == null) {
                 instance = new MetaFactory(new Jdk14LogFactory(), new JDK14LoggerFactory());
             }
         }
         return instance;
+    }
+    
+    private static LoggerFactoryBinder getLoggerFactoryBinder() {
+        Class binderClass;
+        try {
+            binderClass = MetaFactory.class.getClassLoader().loadClass("org.slf4j.impl.StaticLoggerBinder");
+        } catch (ClassNotFoundException ex) {
+            return null;
+        }
+        try {
+            return (LoggerFactoryBinder)binderClass.getMethod("getSingleton", new Class[0]).invoke(null, new Object[0]);
+        } catch (InvocationTargetException ex) {
+            logger.log(Level.WARNING, "Unable to get the SLF4J LoggerFactoryBinder", ex.getCause());
+            return null;
+        } catch (Throwable ex) {
+            logger.log(Level.WARNING, "Unable to get the SLF4J LoggerFactoryBinder", ex);
+            return null;
+        }
     }
 
     public LogFactory getLogFactory() {

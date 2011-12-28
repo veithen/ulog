@@ -34,9 +34,6 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-    <properties>
-        <slf4j.version>1.6.4</slf4j.version>
-    </properties>
     <build>
         <plugins>
             <plugin>
@@ -62,7 +59,8 @@
                                 org/apache/commons/logging/Log.java,
                                 org/apache/commons/logging/LogConfigurationException.java,
                                 org/apache/commons/logging/impl/Jdk14Logger.java,
-                                org/apache/commons/logging/impl/Log4JLogger.java
+                                org/apache/commons/logging/impl/Log4JLogger.java,
+                                org/apache/commons/logging/impl/NoOpLog.java
                             </includes>
                             <outputDirectory>${project.build.directory}/src</outputDirectory>
                         </configuration>

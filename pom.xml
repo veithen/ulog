@@ -27,7 +27,11 @@
         <module>ulog</module>
         <module>itest-log4j</module>
         <module>itest-jul</module>
+        <module>itest-slf4j-nop</module>
     </modules>
+    <properties>
+        <slf4j.version>1.6.4</slf4j.version>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
