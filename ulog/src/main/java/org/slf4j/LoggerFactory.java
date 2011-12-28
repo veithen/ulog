@@ -15,29 +15,13 @@
  */
 package org.slf4j;
 
-import org.apache.commons.logging.LogFactory;
-import org.slf4j.impl.JDK14LoggerFactory;
-import org.slf4j.impl.Log4jLoggerFactory;
+import com.github.veithen.ulog.MetaFactory;
 
 public final class LoggerFactory {
-    private static ILoggerFactory instance;
-    
     private LoggerFactory() {}
     
-    public synchronized static ILoggerFactory getILoggerFactory() {
-        if (instance == null) {
-            ClassLoader cl = LogFactory.class.getClassLoader();
-            try {
-                cl.loadClass("org.apache.log4j.Logger");
-                instance = new Log4jLoggerFactory();
-            } catch (ClassNotFoundException ex) {
-                // continue
-            }
-            if (instance == null) {
-                instance = new JDK14LoggerFactory();
-            }
-        }
-        return instance;
+    public static ILoggerFactory getILoggerFactory() {
+        return MetaFactory.getInstance().getILoggerFactory();
     }
 
     public static Logger getLogger(Class clazz) {

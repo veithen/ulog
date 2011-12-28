@@ -15,26 +15,11 @@
  */
 package org.apache.commons.logging;
 
-import com.github.veithen.ulog.Jdk14LogFactory;
-import com.github.veithen.ulog.Log4jLogFactory;
+import com.github.veithen.ulog.MetaFactory;
 
 public abstract class LogFactory {
-    private static LogFactory instance;
-    
-    public synchronized static LogFactory getFactory() throws LogConfigurationException {
-        if (instance == null) {
-            ClassLoader cl = LogFactory.class.getClassLoader();
-            try {
-                cl.loadClass("org.apache.log4j.Logger");
-                instance = new Log4jLogFactory();
-            } catch (ClassNotFoundException ex) {
-                // continue
-            }
-            if (instance == null) {
-                instance = new Jdk14LogFactory();
-            }
-        }
-        return instance;
+    public static LogFactory getFactory() throws LogConfigurationException {
+        return MetaFactory.getInstance().getLogFactory();
     }
     
     public static Log getLog(Class clazz) throws LogConfigurationException {
