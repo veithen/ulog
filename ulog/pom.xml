@@ -91,9 +91,16 @@
                                     <version>${slf4j.version}</version>
                                     <classifier>sources</classifier>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.slf4j</groupId>
+                                    <artifactId>jcl-over-slf4j</artifactId>
+                                    <version>${slf4j.version}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
                             </artifactItems>
                             <includes>
-                                org/slf4j/**
+                                org/slf4j/**,
+                                org/apache/commons/logging/impl/SLF4J*.java
                             </includes>
                             <excludes>
                                 org/slf4j/LoggerFactory.java,

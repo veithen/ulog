@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.impl.SLF4JLogFactory;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.impl.JDK14LoggerFactory;
@@ -29,7 +30,8 @@ import org.slf4j.spi.LoggerFactoryBinder;
 public final class MetaFactory {
     // We use java.util.logging as a fallback during discovery
     private static final Logger logger = Logger.getLogger(MetaFactory.class.getName());
-    
+
+    private static Boolean log4jAvailable;
     private static MetaFactory instance;
     
     private final LogFactory logFactory;
@@ -42,27 +44,42 @@ public final class MetaFactory {
 
     public static synchronized MetaFactory getInstance() {
         if (instance == null) {
-            ClassLoader cl = MetaFactory.class.getClassLoader();
             LoggerFactoryBinder binder = getLoggerFactoryBinder();
             if (binder != null) {
                 String loggerFactoryClass = binder.getLoggerFactoryClassStr();
                 if (loggerFactoryClass.equals("org.slf4j.helpers.NOPLoggerFactory")) {
                     instance = new MetaFactory(new NoOpLogFactory(), new NOPLoggerFactory());
+                } else if (loggerFactoryClass.equals("org.slf4j.impl.Log4jLoggerFactory")) {
+                    if (isLog4jAvailable()) {
+                        instance = new MetaFactory(new Log4jLogFactory(), new Log4jLoggerFactory());
+                    } else {
+                        logger.log(Level.WARNING, "slf4j-log4j12 detected, but log4j is not available");
+                    }
+                } else {
+                    instance = new MetaFactory(new SLF4JLogFactory(), binder.getLoggerFactory());
                 }
             }
             if (instance == null) {
-                try {
-                    cl.loadClass("org.apache.log4j.Logger");
+                if (isLog4jAvailable()) {
                     instance = new MetaFactory(new Log4jLogFactory(), new Log4jLoggerFactory());
-                } catch (ClassNotFoundException ex) {
-                    // continue
+                } else {
+                    instance = new MetaFactory(new Jdk14LogFactory(), new JDK14LoggerFactory());
                 }
-            }
-            if (instance == null) {
-                instance = new MetaFactory(new Jdk14LogFactory(), new JDK14LoggerFactory());
             }
         }
         return instance;
+    }
+    
+    private static boolean isLog4jAvailable() {
+        if (log4jAvailable == null) {
+            try {
+                MetaFactory.class.getClassLoader().loadClass("org.apache.log4j.Logger");
+                log4jAvailable = Boolean.TRUE;
+            } catch (ClassNotFoundException ex) {
+                log4jAvailable = Boolean.FALSE;
+            }
+        }
+        return log4jAvailable.booleanValue();
     }
     
     private static LoggerFactoryBinder getLoggerFactoryBinder() {
