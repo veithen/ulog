@@ -23,14 +23,13 @@ import org.slf4j.LoggerFactory;
 import junit.framework.TestCase;
 
 public class Test extends TestCase {
-    private org.apache.log4j.Logger log4jLogger;
     private DummyAppender appender;
     
     @Override
     protected void setUp() throws Exception {
-        log4jLogger = org.apache.log4j.Logger.getLogger("test");
+        org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger("test");
         appender = new DummyAppender();
-        log4jLogger.addAppender(appender);
+        logger.addAppender(appender);
     }
 
     public void testCommonsLogging() {
