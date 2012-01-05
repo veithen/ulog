@@ -37,7 +37,7 @@ public final class MetaFactory {
     private final LogFactory logFactory;
     private final ILoggerFactory loggerFactory;
     
-    private MetaFactory(LogFactory logFactory, ILoggerFactory loggerFactory) {
+    MetaFactory(LogFactory logFactory, ILoggerFactory loggerFactory) {
         this.logFactory = logFactory;
         this.loggerFactory = loggerFactory;
     }
@@ -68,6 +68,14 @@ public final class MetaFactory {
             }
         }
         return instance;
+    }
+    
+    static synchronized void setInstance(MetaFactory metaFactory) {
+        if (instance != null) {
+            throw new IllegalStateException("MetaFactory instance already set");
+        } else {
+            instance = metaFactory;
+        }
     }
     
     private static boolean isLog4jAvailable() {
