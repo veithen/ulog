@@ -106,7 +106,8 @@
                             </artifactItems>
                             <includes>
                                 org/slf4j/**,
-                                org/apache/commons/logging/impl/SLF4J*.java
+                                org/apache/commons/logging/impl/SLF4J*.java,
+                                org/apache/log4j/**
                             </includes>
                             <excludes>
                                 org/slf4j/LoggerFactory.java,
