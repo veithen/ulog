@@ -18,15 +18,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.github.veithen.ulog</groupId>
         <artifactId>ulog-project</artifactId>
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
     <artifactId>itest-logback</artifactId>
-    <name>Integration test :: logback</name>
     <packaging>jar</packaging>
+
+    <name>Integration test :: logback</name>
+
+    <scm>
+        <url>https://github.com/veithen/ulog/tree/master</url>
+        <connection>scm:git:http://github.com/veithen/ulog.git</connection>
+        <developerConnection>scm:git:https://github.com/veithen/ulog.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
