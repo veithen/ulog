@@ -34,6 +34,7 @@
     <packaging>jar</packaging>
 
     <name>ulog</name>
+    <url>https://github.com/veithen/ulog</url>
 
     <scm>
         <url>https://github.com/veithen/ulog/tree/master</url>

@@ -35,7 +35,7 @@
     <packaging>pom</packaging>
 
     <name>ulog Project</name>
-    <url>http://veithen.github.io/ulog/</url>
+    <url>https://github.com/veithen/ulog</url>
     <inceptionYear>2011</inceptionYear>
     <licenses>
         <license>
