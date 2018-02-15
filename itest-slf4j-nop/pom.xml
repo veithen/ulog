@@ -24,7 +24,7 @@
     <parent>
         <groupId>com.github.veithen.ulog</groupId>
         <artifactId>ulog-project</artifactId>
-        <version>0.1.0</version>
+        <version>0.2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
