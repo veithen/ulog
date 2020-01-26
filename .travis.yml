@@ -1,5 +1,14 @@
 dist: trusty
 language: java
 jdk:
-  - openjdk7
-script: "mvn verify"
+  - openjdk8
+before_install: if [ -e $JAVA_HOME/lib/security/cacerts ]; then ln -sf /etc/ssl/certs/java/cacerts $JAVA_HOME/lib/security/cacerts; fi
+install: true
+script: '[ "$TRAVIS_REPO_SLUG" == veithen/ulog ] && [ "$TRAVIS_BRANCH" == master ] && [ "$TRAVIS_PULL_REQUEST" == false ] && goal=deploy || goal=verify ; mvn -B -s .travis-settings.xml $goal'
+before_cache: "find $HOME/.m2 -name '*-SNAPSHOT' -a -type d -print0 | xargs -0 rm -rf"
+env:
+  global:
+    - secure: "Js2Sj3DjWt4Q/5/xmo3tER8vIGzgRSctJ5ddoJylC7TSbuxqCgDXQGivYiQslGqixluM3llkciDon/WQ2oPFgbpJ9VCAurtmEnu1Gw1r3xjum9mT4GXqkYugbHay45knwNbnT1kkPgSZEQmSQv49F2C6bHGS/OnUl6wEFOXrxqY="
+cache:
+  directories:
+    - $HOME/.m2
