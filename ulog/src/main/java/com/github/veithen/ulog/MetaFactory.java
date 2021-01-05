@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,10 +37,10 @@ public final class MetaFactory {
 
     private static Boolean log4jAvailable;
     private static MetaFactory instance;
-    
+
     private final LogFactory logFactory;
     private final ILoggerFactory loggerFactory;
-    
+
     MetaFactory(LogFactory logFactory, ILoggerFactory loggerFactory) {
         this.logFactory = logFactory;
         this.loggerFactory = loggerFactory;
@@ -57,7 +57,9 @@ public final class MetaFactory {
                     if (isLog4jAvailable()) {
                         instance = new MetaFactory(new Log4jLogFactory(), new Log4jLoggerFactory());
                     } else {
-                        logger.log(Level.WARNING, "slf4j-log4j12 detected, but log4j is not available");
+                        logger.log(
+                                Level.WARNING,
+                                "slf4j-log4j12 detected, but log4j is not available");
                     }
                 } else {
                     instance = new MetaFactory(new SLF4JLogFactory(), binder.getLoggerFactory());
@@ -73,7 +75,7 @@ public final class MetaFactory {
         }
         return instance;
     }
-    
+
     static synchronized void setInstance(MetaFactory metaFactory) {
         if (instance != null) {
             throw new IllegalStateException("MetaFactory instance already set");
@@ -81,7 +83,7 @@ public final class MetaFactory {
             instance = metaFactory;
         }
     }
-    
+
     private static boolean isLog4jAvailable() {
         if (log4jAvailable == null) {
             try {
@@ -93,16 +95,20 @@ public final class MetaFactory {
         }
         return log4jAvailable.booleanValue();
     }
-    
+
     private static LoggerFactoryBinder getLoggerFactoryBinder() {
         Class binderClass;
         try {
-            binderClass = MetaFactory.class.getClassLoader().loadClass("org.slf4j.impl.StaticLoggerBinder");
+            binderClass =
+                    MetaFactory.class
+                            .getClassLoader()
+                            .loadClass("org.slf4j.impl.StaticLoggerBinder");
         } catch (ClassNotFoundException ex) {
             return null;
         }
         try {
-            return (LoggerFactoryBinder)binderClass.getMethod("getSingleton", new Class[0]).invoke(null, new Object[0]);
+            return (LoggerFactoryBinder)
+                    binderClass.getMethod("getSingleton", new Class[0]).invoke(null, new Object[0]);
         } catch (InvocationTargetException ex) {
             logger.log(Level.WARNING, "Unable to get the SLF4J LoggerFactoryBinder", ex.getCause());
             return null;

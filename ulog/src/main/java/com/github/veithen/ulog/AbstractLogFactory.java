@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,14 +28,14 @@ import org.apache.commons.logging.LogFactory;
 
 public abstract class AbstractLogFactory extends LogFactory {
     private final Map instances = new HashMap();
-    
+
     public final Log getInstance(Class clazz) throws LogConfigurationException {
         return getInstance(clazz.getName());
     }
 
     public final Log getInstance(String name) throws LogConfigurationException {
         synchronized (instances) {
-            Log instance = (Log)instances.get(name);
+            Log instance = (Log) instances.get(name);
             if (instance == null) {
                 instance = newInstance(name);
                 instances.put(name, instance);
@@ -43,6 +43,6 @@ public abstract class AbstractLogFactory extends LogFactory {
             return instance;
         }
     }
-    
+
     protected abstract Log newInstance(String name);
 }
