@@ -76,14 +76,6 @@ public final class MetaFactory {
         return instance;
     }
 
-    static synchronized void setInstance(MetaFactory metaFactory) {
-        if (instance != null) {
-            throw new IllegalStateException("MetaFactory instance already set");
-        } else {
-            instance = metaFactory;
-        }
-    }
-
     private static boolean isLog4jAvailable() {
         if (log4jAvailable == null) {
             try {
