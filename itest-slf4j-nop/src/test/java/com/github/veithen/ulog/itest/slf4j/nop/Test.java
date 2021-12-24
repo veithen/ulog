@@ -19,6 +19,8 @@
  */
 package com.github.veithen.ulog.itest.slf4j.nop;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.LogFactory;
@@ -26,14 +28,12 @@ import org.slf4j.LoggerFactory;
 
 public class Test extends TestCase {
     public void testCommonsLogging() {
-        assertEquals(
-                "org.apache.commons.logging.impl.NoOpLog",
-                LogFactory.getLog("test").getClass().getName());
+        assertThat(LogFactory.getLog("test").getClass().getName())
+                .isEqualTo("org.apache.commons.logging.impl.NoOpLog");
     }
 
     public void testSLF4J() {
-        assertEquals(
-                "org.slf4j.helpers.NOPLogger",
-                LoggerFactory.getLogger("test").getClass().getName());
+        assertThat(LoggerFactory.getLogger("test").getClass().getName())
+                .isEqualTo("org.slf4j.helpers.NOPLogger");
     }
 }

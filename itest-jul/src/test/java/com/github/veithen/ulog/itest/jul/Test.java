@@ -19,6 +19,8 @@
  */
 package com.github.veithen.ulog.itest.jul;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
@@ -40,13 +42,13 @@ public class Test extends TestCase {
         Log log = LogFactory.getLog("test");
         String msg = "test with commons logging";
         log.info(msg);
-        assertEquals(msg, handler.getLastRecord().getMessage());
+        assertThat(handler.getLastRecord().getMessage()).isEqualTo(msg);
     }
 
     public void testSLF4J() {
         Logger logger = LoggerFactory.getLogger("test");
         String msg = "test with SLF4J";
         logger.info(msg);
-        assertEquals(msg, handler.getLastRecord().getMessage());
+        assertThat(handler.getLastRecord().getMessage()).isEqualTo(msg);
     }
 }
