@@ -59,7 +59,7 @@
     </scm>
 
     <properties>
-        <slf4j.version>1.7.32</slf4j.version>
+        <slf4j.version>1.7.33</slf4j.version>
         <github.repository>ulog</github.repository>
         <javaVersion>1.8</javaVersion>
     </properties>
