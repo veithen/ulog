@@ -24,7 +24,7 @@
     <parent>
         <groupId>com.github.veithen</groupId>
         <artifactId>parent</artifactId>
-        <version>36</version>
+        <version>37</version>
     </parent>
 
     <groupId>com.github.veithen.ulog</groupId>
@@ -62,6 +62,7 @@
         <slf4j.version>1.7.33</slf4j.version>
         <github.repository>ulog</github.repository>
         <javaVersion>1.8</javaVersion>
+        <project.build.outputTimestamp>2022-01-23T12:58:00Z</project.build.outputTimestamp>
     </properties>
 
     <dependencyManagement>
