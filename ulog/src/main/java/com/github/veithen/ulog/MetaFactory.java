@@ -28,7 +28,7 @@ import org.apache.commons.logging.impl.SLF4JLogFactory;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.impl.JDK14LoggerFactory;
-import org.slf4j.impl.Log4jLoggerFactory;
+import org.slf4j.impl.Reload4jLoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 public final class MetaFactory {
@@ -53,9 +53,10 @@ public final class MetaFactory {
                 String loggerFactoryClass = binder.getLoggerFactoryClassStr();
                 if (loggerFactoryClass.equals("org.slf4j.helpers.NOPLoggerFactory")) {
                     instance = new MetaFactory(new NoOpLogFactory(), new NOPLoggerFactory());
-                } else if (loggerFactoryClass.equals("org.slf4j.impl.Log4jLoggerFactory")) {
+                } else if (loggerFactoryClass.equals("org.slf4j.impl.Reload4jLoggerFactory")) {
                     if (isLog4jAvailable()) {
-                        instance = new MetaFactory(new Log4jLogFactory(), new Log4jLoggerFactory());
+                        instance =
+                                new MetaFactory(new Log4jLogFactory(), new Reload4jLoggerFactory());
                     } else {
                         logger.log(
                                 Level.WARNING,
@@ -67,7 +68,7 @@ public final class MetaFactory {
             }
             if (instance == null) {
                 if (isLog4jAvailable()) {
-                    instance = new MetaFactory(new Log4jLogFactory(), new Log4jLoggerFactory());
+                    instance = new MetaFactory(new Log4jLogFactory(), new Reload4jLoggerFactory());
                 } else {
                     instance = new MetaFactory(new Jdk14LogFactory(), new JDK14LoggerFactory());
                 }
