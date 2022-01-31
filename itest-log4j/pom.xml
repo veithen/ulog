@@ -33,6 +33,13 @@
 
     <name>Integration test :: log4j</name>
 
+    <scm>
+        <url>https://github.com/veithen/ulog/tree/master</url>
+        <connection>scm:git:http://github.com/veithen/ulog.git</connection>
+        <developerConnection>scm:git:https://github.com/veithen/ulog.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <properties>
         <skipDeploy>true</skipDeploy>
     </properties>
