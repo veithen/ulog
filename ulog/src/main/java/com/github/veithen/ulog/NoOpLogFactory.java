@@ -27,10 +27,12 @@ import org.apache.commons.logging.impl.NoOpLog;
 public final class NoOpLogFactory extends LogFactory {
     private final NoOpLog noOpLog = new NoOpLog();
 
+    @Override
     public Log getInstance(Class clazz) throws LogConfigurationException {
         return noOpLog;
     }
 
+    @Override
     public Log getInstance(String name) throws LogConfigurationException {
         return noOpLog;
     }

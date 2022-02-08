@@ -24,10 +24,12 @@ import org.apache.commons.logging.LogConfigurationException;
 import org.apache.commons.logging.LogFactory;
 
 public class DelegatingLogFactory extends LogFactory {
+    @Override
     public Log getInstance(Class clazz) throws LogConfigurationException {
         return MetaFactory.getInstance().getLogFactory().getInstance(clazz);
     }
 
+    @Override
     public Log getInstance(String name) throws LogConfigurationException {
         return MetaFactory.getInstance().getLogFactory().getInstance(name);
     }

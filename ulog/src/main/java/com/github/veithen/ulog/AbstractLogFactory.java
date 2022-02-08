@@ -29,10 +29,12 @@ import org.apache.commons.logging.LogFactory;
 public abstract class AbstractLogFactory extends LogFactory {
     private final Map instances = new HashMap();
 
+    @Override
     public final Log getInstance(Class clazz) throws LogConfigurationException {
         return getInstance(clazz.getName());
     }
 
+    @Override
     public final Log getInstance(String name) throws LogConfigurationException {
         synchronized (instances) {
             Log instance = (Log) instances.get(name);

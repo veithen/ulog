@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.impl.Jdk14Logger;
 
 public final class Jdk14LogFactory extends AbstractLogFactory {
+    @Override
     protected Log newInstance(String name) {
         return new Jdk14Logger(name);
     }
